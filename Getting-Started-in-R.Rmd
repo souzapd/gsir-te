@@ -801,12 +801,13 @@ the rescue:
 
 
 ```{r cwchained}
-cw21 <- cw[Time %in% c(0,21)][    # i: select rows
-  , weight := Weight][            # j: mutate
-  , Group := factor(Group)][
-  , .(Chick,Group,Time,weight)][  # j: arrange
-   order(Chick,Time)][            # i: order
-  1:5]                            # i: subset
+cw21 <- (  # use '(' to keep ops on separate lines
+    cw[Time %in% c(0,21)]          # i: select rows
+    [, weight := Weight]           # j: mutate
+    [, Group := factor(Group)]
+    [, .(Chick,Group,Time,weight)] # j: arrange
+    [order(Chick,Time)]            # i: order
+    [1:5] )                        # i: subset
 ```
 
 # Parametrization
