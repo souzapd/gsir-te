@@ -798,14 +798,15 @@ You may want to do multiple data wrangling steps at once. This is where the 'cha
 `data.table` operations (_i.e._, several sets of commands with square brackets) comes to
 the rescue:
 
-
 ```{r cwchained}
-cw21 <- cw[Time %in% c(0,21)][    # i: select rows
-  , weight := Weight][            # j: mutate
-  , Group := factor(Group)][
-  , .(Chick,Group,Time,weight)][  # j: arrange
-   order(Chick,Time)][            # i: order
-  1:5]                            # i: subset
+cw21 <- (  # use '(' to keep ops on separate lines
+    cw[Time %in% c(0,21)]          # i: select rows
+    [, weight := Weight]           # j: mutate
+    [, Group := factor(Group)]
+    [, .(Chick,Group,Time,weight)] # j: arrange
+    [order(Chick,Time)]            # i: order
+    [1:5]                          # i: subset
+)
 ```
 
 # Parametrization
@@ -821,7 +822,7 @@ cw[, .(out_col = fun(col)),
    env = list(col=col, fun=fun, out_col=out_col)]
 ```
 
-Note that we also provided name of a resulting column as a character variable.
+Note that we also provided the name of a resulting column as a character variable.
 
 
 # Chick Weight: Summary Statistics
